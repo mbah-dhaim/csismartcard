@@ -2,16 +2,30 @@
 
 namespace com.csi.smartcard
 {
+    /// <summary>
+    /// A Smart Card with which a connection has been established.
+    /// </summary>
     public class Card
     {
         private IntPtr handle;
-
+        /// <summary>
+        /// Connection protocol
+        /// <see cref="SCardProtocolIdentifiers"/>
+        /// </summary>
         protected SCardProtocolIdentifiers protocol;
-
+        /// <summary>
+        /// Card ATR
+        /// </summary>
         protected ATR atr;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         protected Card() { }
-
+        /// <summary>
+        /// Generic create instance
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         protected static T of<T>() where T : Card, new() => new T();
 
         internal Card setHandle(IntPtr handle)
@@ -35,11 +49,20 @@ namespace com.csi.smartcard
             this.atr = atr;
             return this;
         }
-
+        /// <summary>
+        /// Get Card ATR
+        /// </summary>
+        /// <returns></returns>
         public ATR getATR() => atr;
-
+        /// <summary>
+        /// Disconnect
+        /// </summary>
+        /// <param name="reset"></param>
         public void disconnect(bool reset = false) => NativeMethods.SCardDisconnect(handle, reset ? (uint)SCardDisposition.ResetCard : (uint)SCardDisposition.UnpowerCard);
-
+        /// <summary>
+        /// Get transmission channel
+        /// </summary>
+        /// <returns></returns>
         public CardChannel getBasicChannel() => CardChannel.of().setCard(this);
 
     }

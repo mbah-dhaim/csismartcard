@@ -2,12 +2,21 @@
 
 namespace com.csi.smartcard
 {
+    /// <summary>
+    /// A logical channel connection to a Smart Card.
+    /// </summary>
     public class CardChannel
     {
         private readonly IntPtr SCARD_PCI_T0;
+
         private readonly IntPtr SCARD_PCI_T1;
+
         private readonly IntPtr SCARD_PCI_RAW;
+
         private Card card;
+        /// <summary>
+        /// Constructor
+        /// </summary>
         protected CardChannel()
         {
             SCARD_PCI_T0 = NativeMethods.GetPciT0();
@@ -15,13 +24,23 @@ namespace com.csi.smartcard
             SCARD_PCI_RAW = NativeMethods.GetPciRaw();
         }
         internal static CardChannel of() => new CardChannel();
+
         internal CardChannel setCard(Card card)
         {
             this.card = card;
             return this;
         }
+        /// <summary>
+        /// Close connection
+        /// <see cref="Card.disconnect(bool)"/>
+        /// </summary>
         public virtual void close() => card.disconnect();
-
+        /// <summary>
+        /// Transmits the command APDU stored in the command byte array and receives the reponse APDU in the response byte array
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public virtual int transmit(byte[] command, out byte[] response)
         {
             response = new byte[0];
@@ -50,7 +69,13 @@ namespace com.csi.smartcard
             Array.Copy(buffer, response, length);
             return (int)length;
         }
-
+        /// <summary>
+        /// Transmits the specified command APDU to the Smart Card and returns the response APDU.
+        /// <see cref="CommandAPDU"/>
+        /// <see cref="ResponseAPDU"/>
+        /// </summary>
+        /// <param name="apdu"></param>
+        /// <returns></returns>
         public ResponseAPDU transmit(CommandAPDU apdu)
         {
             int length = transmit(apdu.getBytes(), out byte[] response);

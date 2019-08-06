@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace com.csi.smartcard
 {
+    /// <summary>
+    /// A Smart Card terminal, sometimes refered to as a Smart Card Reader.
+    /// </summary>
     public class CardTerminal
     {
 
@@ -16,7 +19,9 @@ namespace com.csi.smartcard
         internal SCardState State { get; set; }
 
         internal ATR atr { get; private set; }
-
+        /// <summary>
+        /// Constructs a new CardTerminal object.
+        /// </summary>
         protected CardTerminal() => State = SCardState.UNAWARE;
 
         internal static CardTerminal of(string name) => new CardTerminal().setName(name);
@@ -25,9 +30,17 @@ namespace com.csi.smartcard
         {
             this.name = name; return this;
         }
-
+        /// <summary>
+        /// Returns the unique name of this terminal.
+        /// </summary>
+        /// <returns></returns>
         public string getName() => name;
-
+        /// <summary>
+        /// Establishes a connection to the card.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="protocol"></param>
+        /// <returns></returns>
         public T connect<T>(SCardProtocolIdentifiers protocol = SCardProtocolIdentifiers.Default) where T : Card
         {
             if (!TerminalFactory.getDefault().isEstablished())
@@ -49,7 +62,10 @@ namespace com.csi.smartcard
             result.setHandle(hCard).setProtocol((SCardProtocolIdentifiers)pProtocol).setATR(atr);
             return result;
         }
-
+        /// <summary>
+        /// Returns whether a card is present in this terminal.
+        /// </summary>
+        /// <returns></returns>
         public bool isCardPresent()
         {
             if ((State & SCardState.PRESENT) == SCardState.PRESENT || (State & SCardState.ATRMATCH) == SCardState.ATRMATCH)
@@ -88,7 +104,11 @@ namespace com.csi.smartcard
             }
             return false;
         }
-
+        /// <summary>
+        /// Waits until a card is absent in this terminal or the timeout expires.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public bool waitForCardAbsent(uint timeout = 0)
         {
             if (!isCardPresent()) return true;
@@ -113,7 +133,11 @@ namespace com.csi.smartcard
             t.Wait(procTimeout);
             return !t.IsCompleted ? false : t.Result;
         }
-
+        /// <summary>
+        /// Waits until a card is present in this terminal or the timeout expires.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public bool waitForCardPresent(uint timeout = 0)
         {
             if (isCardPresent()) return true;

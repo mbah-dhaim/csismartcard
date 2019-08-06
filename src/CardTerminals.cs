@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace com.csi.smartcard
 {
+    /// <summary>
+    /// The set of terminals supported by a TerminalFactory.
+    /// </summary>
     public partial class CardTerminals
     {
-        protected object lockObject = new object();
-
+        private object lockObject = new object();
+        /// <summary>
+        /// Internal list of <see cref="CardTerminal"/>
+        /// </summary>
         protected List<CardTerminal> terminals;
-
+        /// <summary>
+        /// Current <see cref="CardTerminals.State"/>
+        /// </summary>
         protected State state = State.ALL;
 
         private bool requestDestroy;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         protected CardTerminals() => terminals = new List<CardTerminal>();
 
         private static CardTerminals instance = null;
@@ -25,10 +34,22 @@ namespace com.csi.smartcard
             instance = instance ?? new CardTerminals();
             return instance;
         }
-
+        /// <summary>
+        /// Get <see cref="CardTerminal"/> from internal list by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public CardTerminal getTerminal(string name) => terminals.Find(o => o.getName() == name);
+        /// <summary>
+        /// Get <see cref="CardTerminal"/> from internal list by index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CardTerminal getTerminal(int index) => index < 0 || index >= terminals.Count ? null : terminals[index];
-
+        /// <summary>
+        /// Refresh internal list
+        /// </summary>
+        /// <returns></returns>
         protected List<CardTerminal> refreshList()
         {
             if (!TerminalFactory.getDefault().isEstablished())
@@ -46,7 +67,11 @@ namespace com.csi.smartcard
             readerList.ForEach(s => result.Add(CardTerminal.of(s)));
             return result;
         }
-
+        /// <summary>
+        /// Returns an unmodifiable list of all available terminals.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
         public List<CardTerminal> list(State state = State.ALL)
         {
             // TODO: check state each terminal to filter output here
@@ -98,7 +123,11 @@ namespace com.csi.smartcard
         }
 
         private StatusChangeContainer statusChangeContainer;
-
+        /// <summary>
+        /// Waits for card insertion or removal in any of the terminals of this object or until the timeout expires.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public virtual bool waitForChange(uint timeout = 0u)
         {
             List<CardTerminal> result = new List<CardTerminal>();
@@ -206,7 +235,7 @@ namespace com.csi.smartcard
         }
 
         internal void cleanUp()
-        {            
+        {
             //cleans up child running thread
             terminals.ForEach(o =>
             {

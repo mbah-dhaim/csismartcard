@@ -4,36 +4,72 @@ using System.Linq;
 
 namespace com.csi.smartcard.Extensions
 {
+    /// <summary>
+    /// Dictionary Extension
+    /// </summary>
     public static class DictionaryExtensions
     {
+        /// <summary>
+        /// Add if not exists
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public static void AddIfNotExists<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             CheckDictionaryIsNull(dictionary);
             if (!dictionary.ContainsKey(key))
                 dictionary.Add(key, value);
         }
-
+        /// <summary>
+        /// Delete if exists
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
         public static void DeleteIfExistsKey<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         {
             CheckDictionaryIsNull(dictionary);
             if (dictionary.ContainsKey(key))
                 dictionary.Remove(key);
         }
-
+        /// <summary>
+        /// Update element
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public static void Update<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             CheckDictionaryIsNull(dictionary);
             CheckKeyValuePairIsNull(key, value);
             dictionary[key] = value;
         }
-
+        /// <summary>
+        /// Update element
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="pair"></param>
         public static void Update<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, KeyValuePair<TKey, TValue> pair)
         {
             CheckDictionaryIsNull(dictionary);
             CheckKeyValuePairIsNull(pair);
             dictionary[pair.Key] = pair.Value;
         }
-
+        /// <summary>
+        /// Delete if a value exists
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="value"></param>
         public static void DeleteIfExistsValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TValue value)
         {
             CheckDictionaryIsNull(dictionary);
@@ -41,13 +77,25 @@ namespace com.csi.smartcard.Extensions
             var key = dictionary.GetKeyFromValue(value);
             dictionary.Remove(key);
         }
-
+        /// <summary>
+        /// Check all values are empty (null)
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
         public static bool AreValuesEmpty<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
         {
             CheckDictionaryIsNull(dictionary);
             return dictionary.All(x => x.Value == null);
         }
-
+        /// <summary>
+        /// Check all keys are empty
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
         public static bool AreKeysEmpty<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
         {
             CheckDictionaryIsNull(dictionary);

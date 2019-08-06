@@ -64,6 +64,27 @@ namespace com.csi.smartcard
         /// </summary>
         /// <returns></returns>
         public CardChannel getBasicChannel() => CardChannel.of().setCard(this);
-
+        /// <summary>
+        /// Requests exclusive access to this card.
+        /// </summary>
+        public void beginExclusive()
+        {
+            uint rv = NativeMethods.SCardBeginTransaction(handle);
+            if (rv != 0)
+            {
+                throw new CardException("Failed to get exclusive access");
+            }
+        }
+        /// <summary>
+        /// Releases the exclusive access previously established using beginExclusive.
+        /// </summary>
+        public void endExclusive()
+        {
+            uint rv = NativeMethods.SCardEndTransaction(handle, (uint)SCardDisposition.LeaveCard);
+            if (rv != 0)
+            {
+                throw new CardException("Failed to stop exclusive access");
+            }
+        }
     }
 }

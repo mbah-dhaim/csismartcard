@@ -8,7 +8,7 @@
     <owners>$author$</owners>   
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>First release</releaseNotes>
+    <releaseNotes>Add some functionality</releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>smartcard;javax.smartcardio</tags>
 	<license type="expression">Apache-2.0</license>

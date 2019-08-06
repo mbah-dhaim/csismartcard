@@ -66,5 +66,10 @@ namespace com.csi.smartcard
         /// </summary>
         /// <returns></returns>
         public int getSW2() => sw2;
+        /// <summary>
+        /// Override <see cref="object.ToString()"/>
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => Utils.ByteArrayToHex(bytes);
     }
 }

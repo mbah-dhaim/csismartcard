@@ -225,6 +225,18 @@ namespace com.csi.smartcard
         /// </summary>
         /// <returns></returns>
         public int getP2() => p2;
+        /// <summary>        
+        /// Override <see cref="object.ToString()"/>
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            if (null == bytes || bytes.Length == 0)
+            {
+                build();
+            }
+            return Utils.ByteArrayToHex(bytes);
+        }
     }
 }
 

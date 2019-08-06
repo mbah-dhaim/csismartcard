@@ -15,6 +15,6 @@
         /// Get ATR byte array
         /// </summary>
         /// <returns></returns>
-        public byte[] getBytes() => bytes;
+        public byte[] getBytes() => (byte[])bytes.Clone();
     }
 }

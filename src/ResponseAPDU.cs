@@ -9,13 +9,13 @@ namespace com.csi.smartcard
     {
         private byte[] bytes;
 
-        private int nr;
+        private readonly int nr;
 
-        private int sw;
+        private readonly int sw;
 
-        private int sw1;
+        private readonly int sw1;
 
-        private int sw2;
+        private readonly int sw2;
 
         private byte[] data;
         /// <summary>
@@ -24,7 +24,7 @@ namespace com.csi.smartcard
         /// <param name="bytes"></param>
         public ResponseAPDU(byte[] bytes)
         {
-            if (bytes == null || bytes.Length < 2) throw new System.ArgumentException();
+            if (bytes == null || bytes.Length < 2) throw new ArgumentException();
             this.bytes = bytes;
             sw1 = bytes[bytes.Length - 2];
             sw2 = bytes[bytes.Length - 1];
@@ -40,12 +40,12 @@ namespace com.csi.smartcard
         /// Returns a copy of the bytes in this APDU.
         /// </summary>
         /// <returns></returns>
-        public byte[] getBytes() => bytes;
+        public byte[] getBytes() => (byte[])bytes.Clone();
         /// <summary>
         /// Returns a copy of the data bytes in the response body.
         /// </summary>
         /// <returns></returns>
-        public byte[] getData() => data;
+        public byte[] getData() => null != data ? (byte[])data.Clone() : null;
         /// <summary>
         /// Returns the number of data bytes in the response body (Nr) or 0 if this APDU has no body.
         /// </summary>

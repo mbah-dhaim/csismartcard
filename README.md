@@ -21,7 +21,7 @@ Console.Write("ATR: ");
 card.getATR().getBytes().ForEach(b => Console.Write("{0:X2} ", b));
 Console.WriteLine();
 CommandAPDU command = new CommandAPDU(cl);
-ResponseAPDU response = card.getBasicChannel().transmit(command);
+ResponseAPDU response = card.getBasicChannel<CardChannel>().transmit(command);
 // disconnect
 card.disconnect(false);
 ```

@@ -17,7 +17,7 @@ namespace com.csi.smartcard
         /// </summary>
         protected List<CardTerminal> terminals;
         /// <summary>
-        /// Current <see cref="CardTerminals.State"/>
+        /// Current <see cref="State"/>
         /// </summary>
         protected State state = State.ALL;
 
@@ -233,6 +233,12 @@ namespace com.csi.smartcard
             }
             return !statusChangeContainer.IsCompleted ? false : true;
         }
+        /// <summary>
+        /// Get <see cref="CardTerminal"/> at index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public CardTerminal this[int index] => index < 0 || index >= terminals.Count ? null : terminals[index];
 
         internal void cleanUp()
         {

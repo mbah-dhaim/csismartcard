@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace com.csi.smartcard
 {
@@ -63,7 +64,15 @@ namespace com.csi.smartcard
         /// Get transmission channel
         /// </summary>
         /// <returns></returns>
-        public CardChannel getBasicChannel() => CardChannel.of().setCard(this);
+        public T getBasicChannel<T>() where T : CardChannel
+        {
+            Type t = typeof(T);
+            T result = (T)t.GetConstructor(BindingFlags.NonPublic | BindingFlags.CreateInstance | BindingFlags.Instance, null, new Type[0], null).Invoke(new object[0]);
+            result.setCard(this);
+            return result;
+            //return CardChannel.of().setCard(this);
+        }
+
         /// <summary>
         /// Requests exclusive access to this card.
         /// </summary>

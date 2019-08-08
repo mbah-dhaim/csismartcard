@@ -23,7 +23,8 @@ namespace com.csi.smartcard
             SCARD_PCI_T1 = NativeMethods.GetPciT1();
             SCARD_PCI_RAW = NativeMethods.GetPciRaw();
         }
-        internal static CardChannel of() => new CardChannel();
+
+        //internal static CardChannel of() => new CardChannel();
 
         internal CardChannel setCard(Card card)
         {
@@ -79,8 +80,7 @@ namespace com.csi.smartcard
         public ResponseAPDU transmit(CommandAPDU apdu)
         {
             int length = transmit(apdu.getBytes(), out byte[] response);
-            if (length > 0) return new ResponseAPDU(response);
-            return null;
+            return length > 0 ? new ResponseAPDU(response) : null;
         }
     }
 }

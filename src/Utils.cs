@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.csi.smartcard.Extensions;
+using System;
 using System.Text;
 
 namespace com.csi.smartcard
@@ -275,5 +276,17 @@ namespace com.csi.smartcard
         /// <param name="value"></param>
         /// <returns></returns>
         public static string ShortToHex(short value) => ByteArrayToHex(ShortToBytes(value));
+        /// <summary>
+        /// Convert byte array to hex with space
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string PrettyHex(byte[] data)
+        {
+            if (null == data || data.Length == 0) return string.Empty;
+            StringBuilder result = new StringBuilder();
+            data.ForEach(b => result.AppendFormat("{0:X2} ", b));
+            return result.ToString();
+        }
     }
 }

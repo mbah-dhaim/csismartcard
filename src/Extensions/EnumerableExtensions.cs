@@ -63,5 +63,21 @@ namespace com.csi.smartcard.Extensions
 
             return enumerable.Skip(enumerable.Count() - count).Take(count);
         }
+        /// <summary>
+        /// Check if enumerable is empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static bool IsEmpty<T>(this IEnumerable<T> enumerable) => enumerable == null ? true : enumerable.Count() == 0;
+        /// <summary>
+        /// Copy of range
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> CopyOfRange<T>(this IEnumerable<T> enumerable, int offset, int length) => enumerable.Skip(offset).Take(length);
     }
 }

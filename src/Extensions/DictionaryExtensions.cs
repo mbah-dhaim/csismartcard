@@ -101,6 +101,19 @@ namespace com.csi.smartcard.Extensions
             CheckDictionaryIsNull(dictionary);
             return dictionary.All(x => x.Key == null);
         }
+        /// <summary>
+        /// Get or default
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+        {
+            if (dictionary.ContainsKey(key)) return dictionary[key];
+            return default(TValue);
+        }
 
         private static TKey GetKeyFromValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary,
             TValue value)
